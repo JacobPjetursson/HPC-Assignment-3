@@ -5,9 +5,10 @@ extern "C" {
 #include <helper_cuda.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <cublas_v2.h>
+#include <omp.h>
 
-#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+// Block size when blocking for registers
 #define bsx 1
 #define bsy 16
 // Thread block size for shared memory
@@ -25,6 +26,7 @@ void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C) {
     double *d_A, *d_B, *d_C;
     for(int i = 0; i < m * n; i++)
         C[i] = 0;
+
     cudaMalloc( (void **)&d_A, m * k * sizeof(double));
     cudaMalloc( (void **)&d_B, n * k * sizeof(double));
     cudaMalloc( (void **)&d_C, m * n * sizeof(double));
@@ -34,10 +36,13 @@ void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C) {
 
     matmult_gpu1_kernel<<<1, 1>>>(m, n, k, d_A, d_B, d_C);
     cudaDeviceSynchronize();
+
     cudaMemcpy(C, d_C, m * n * sizeof(double), cudaMemcpyDeviceToHost);
     cudaFree(d_A);
     cudaFree(d_B);
     cudaFree(d_C);
+
+
 }
 
 __global__
@@ -172,8 +177,7 @@ void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C) {
     matmult_gpu4_kernel<<<dimGrid, dimBlock>>>(m, n, k, d_A, d_B, d_C);
     cudaDeviceSynchronize();
     cudaMemcpy(C, d_C, m * n * sizeof(double), cudaMemcpyDeviceToHost);
-    //for (int i = 0; i < m * n; i++)
-    //    printf("%f\n", C[i]);
+
     cudaFree(d_A);
     cudaFree(d_B);
     cudaFree(d_C);
@@ -227,13 +231,6 @@ __global__ void matmult_gpu4_kernel(int m, int n, int k, double *A, double *B, d
     }
 }
 
-__device__ double* GetSubMatrix_ours(double *A, int row, int col, int width)
-{
-    double *Asub = &A[width * BLOCK_SIZE * row
-                            + BLOCK_SIZE * col];
-    return Asub;
-}
-
 void matmult_gpu5(int m, int n, int k, double *A, double *B, double *C)
 {
     double *d_A, *d_B, *d_C;
@@ -264,15 +261,15 @@ __global__ void matmult_gpu5_kernel(int m, int n, int k, double *A, double *B, d
     int blockRow = blockIdx.y;
     int blockCol = blockIdx.x;
 
-    double *Csub = GetSubMatrix_ours(C, blockRow, blockCol, n);
+    double *Csub = &C[n * BLOCK_SIZE * blockRow + BLOCK_SIZE * blockCol];
     double Cvalue = 0;
 
     int row = threadIdx.y;
     int col = threadIdx.x;
 
     for (int l = 0; l < (k / BLOCK_SIZE); ++l) {
-        double *Asub = GetSubMatrix_ours(A, blockRow, l, k);
-        double *Bsub = GetSubMatrix_ours(B, l, blockCol, n);
+        double *Asub = &A[k * BLOCK_SIZE * blockRow + BLOCK_SIZE * l];
+        double *Bsub = &B[n * BLOCK_SIZE * l + BLOCK_SIZE * blockCol];
 
         __shared__ double As[BLOCK_SIZE][BLOCK_SIZE];
         __shared__ double Bs[BLOCK_SIZE][BLOCK_SIZE];
@@ -288,4 +285,14 @@ __global__ void matmult_gpu5_kernel(int m, int n, int k, double *A, double *B, d
     }
 
     Csub[row * m + col] = Cvalue;
+}
+
+void matmult_gpulib(int m, int n, int k, double *A, double *B, double *C)
+{
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+    double alpha = 1.0;
+    double beta = 0.0;
+    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, &alpha, B, n, A, k, &beta, C, n);
+    cublasDestroy(handle);
 }

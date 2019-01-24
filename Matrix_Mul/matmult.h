@@ -1,4 +1,3 @@
-void matmult_nat(int m, int n, int k, double *A, double *B, double *C);
 void matmult_lib(int m, int n, int k, double *A, double *B, double *C);
 void matmult_gpu1(int m, int n, int k, double *A, double *B, double *C);
 __global__ void matmult_gpu1_kernel(int m, int n, int k, double *A, double *B, double *C);

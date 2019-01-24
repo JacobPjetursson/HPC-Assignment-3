@@ -1,0 +1,8 @@
+==364933== NVPROF is profiling process 364933, command: ./matmult_f.nvcc gpu1 1024 1024 1024
+==364933== Profiling application: ./matmult_f.nvcc gpu1 1024 1024 1024
+ 24576.000     12.813 # matmult_gpu1
+==364933== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:  100.00%  837.968s         5  167.594s  167.584s  167.615s  matmult_gpu1_kernel
+                    0.00%  10.248ms        16  640.52us  1.5040us  684.22us  [CUDA memcpy HtoD]
+                    0.00%  3.1884ms         5  637.67us  637.50us  637.88us  [CUDA memcpy DtoH]
