@@ -1,152 +1,152 @@
-==367968== NVPROF is profiling process 367968, command: ./matmult_f.nvcc gpu2 1024 1024 1024
-==367968== Profiling application: ./matmult_f.nvcc gpu2 1024 1024 1024
- 24576.000 201808.583 # matmult_gpu2
-==367968== Profiling result:
+==54495== NVPROF is profiling process 54495, command: ./matmult_f.nvcc gpu2 1024 1024 1024
+==54495== Profiling application: ./matmult_f.nvcc gpu2 1024 1024 1024
+ 24576.000 323087.322 # matmult_gpu2
+==54495== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   68.21%  1.63679s       284  5.7633ms  5.6940ms  6.4148ms  matmult_gpu2_kernel
-                   24.24%  581.66ms       853  681.89us  1.5040us  695.16us  [CUDA memcpy HtoD]
-                    7.55%  181.17ms       284  637.92us  637.34us  652.83us  [CUDA memcpy DtoH]
-==367985== NVPROF is profiling process 367985, command: ./matmult_f.nvcc gpu2 1536 1536 1536
-==367985== Profiling application: ./matmult_f.nvcc gpu2 1536 1536 1536
-==367985== Profiling result:
+ GPU activities:   50.19%  924.81ms      1357  681.51us  1.5360us  690.30us  [CUDA memcpy HtoD]
+                   34.16%  629.56ms       452  1.3928ms  1.3694ms  1.5466ms  matmult_gpu2_kernel
+                   15.65%  288.41ms       452  638.08us  637.85us  646.65us  [CUDA memcpy DtoH]
+==54513== NVPROF is profiling process 54513, command: ./matmult_f.nvcc gpu2 1536 1536 1536
+==54513== Profiling application: ./matmult_f.nvcc gpu2 1536 1536 1536
+==54513== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   75.62%  1.90898s       102  18.715ms  18.599ms  18.940ms  matmult_gpu2_kernel
-                   18.58%  469.06ms       307  1.5279ms  1.5680us  1.5395ms  [CUDA memcpy HtoD]
-                    5.79%  146.27ms       102  1.4340ms  1.4330ms  1.4416ms  [CUDA memcpy DtoH]
- 55296.000 244389.273 # matmult_gpu2
-==368008== NVPROF is profiling process 368008, command: ./matmult_f.nvcc gpu2 2048 2048 2048
-==368008== Profiling application: ./matmult_f.nvcc gpu2 2048 2048 2048
-==368008== Profiling result:
+ GPU activities:   43.58%  931.14ms       200  4.6557ms  4.6221ms  4.6924ms  matmult_gpu2_kernel
+                   42.99%  918.63ms       601  1.5285ms  1.3760us  1.5381ms  [CUDA memcpy HtoD]
+                   13.43%  286.84ms       200  1.4342ms  1.4339ms  1.4427ms  [CUDA memcpy DtoH]
+ 55296.000 480948.819 # matmult_gpu2
+==54530== NVPROF is profiling process 54530, command: ./matmult_f.nvcc gpu2 2048 2048 2048
+==54530== Profiling application: ./matmult_f.nvcc gpu2 2048 2048 2048
+==54530== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   80.62%  2.22996s        50  44.599ms  44.465ms  44.792ms  matmult_gpu2_kernel
-                   14.77%  408.50ms       151  2.7053ms  1.4080us  2.7336ms  [CUDA memcpy HtoD]
-                    4.61%  127.39ms        50  2.5477ms  2.5468ms  2.5553ms  [CUDA memcpy DtoH]
- 98304.000 285297.405 # matmult_gpu2
-==368025== NVPROF is profiling process 368025, command: ./matmult_f.nvcc gpu2 2560 2560 2560
-==368025== Profiling application: ./matmult_f.nvcc gpu2 2560 2560 2560
-==368025== Profiling result:
+ GPU activities:   50.18%  1.15414s       107  10.786ms  10.718ms  11.009ms  matmult_gpu2_kernel
+                   37.96%  873.02ms       322  2.7112ms  1.4080us  2.7263ms  [CUDA memcpy HtoD]
+                   11.86%  272.70ms       107  2.5486ms  2.5483ms  2.5544ms  [CUDA memcpy DtoH]
+ 98304.000 610752.895 # matmult_gpu2
+==54548== NVPROF is profiling process 54548, command: ./matmult_f.nvcc gpu2 2560 2560 2560
+==54548== Profiling application: ./matmult_f.nvcc gpu2 2560 2560 2560
+==54548== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   83.70%  2.40808s        28  86.003ms  85.874ms  86.120ms  matmult_gpu2_kernel
-                   12.42%  357.39ms        85  4.2046ms  1.4080us  4.2627ms  [CUDA memcpy HtoD]
-                    3.88%  111.52ms        28  3.9829ms  3.9795ms  3.9881ms  [CUDA memcpy DtoH]
-153600.000 305378.865 # matmult_gpu2
-==368043== NVPROF is profiling process 368043, command: ./matmult_f.nvcc gpu2 3072 3072 3072
-==368043== Profiling application: ./matmult_f.nvcc gpu2 3072 3072 3072
-==368043== Profiling result:
+ GPU activities:   59.48%  1.47306s        60  24.551ms  23.151ms  24.672ms  matmult_gpu2_kernel
+                   30.88%  764.77ms       181  4.2253ms  1.6640us  4.2688ms  [CUDA memcpy HtoD]
+                    9.65%  238.92ms        60  3.9819ms  3.9815ms  3.9889ms  [CUDA memcpy DtoH]
+153600.000 666763.301 # matmult_gpu2
+==54565== NVPROF is profiling process 54565, command: ./matmult_f.nvcc gpu2 3072 3072 3072
+==54565== Profiling application: ./matmult_f.nvcc gpu2 3072 3072 3072
+==54565== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   86.00%  2.51700s        17  148.06ms  147.86ms  148.31ms  matmult_gpu2_kernel
-                   10.67%  312.31ms        52  6.0060ms  1.4080us  6.1251ms  [CUDA memcpy HtoD]
-                    3.33%  97.409ms        17  5.7300ms  5.7292ms  5.7373ms  [CUDA memcpy DtoH]
-221184.000 318549.566 # matmult_gpu2
-==368060== NVPROF is profiling process 368060, command: ./matmult_f.nvcc gpu2 3584 3584 3584
-==368060== Profiling application: ./matmult_f.nvcc gpu2 3584 3584 3584
-==368060== Profiling result:
+ GPU activities:   63.46%  1.63134s        39  41.829ms  41.754ms  41.924ms  matmult_gpu2_kernel
+                   27.84%  715.63ms       118  6.0647ms  1.4080us  6.1398ms  [CUDA memcpy HtoD]
+                    8.70%  223.58ms        39  5.7329ms  5.7324ms  5.7424ms  [CUDA memcpy DtoH]
+221184.000 739390.740 # matmult_gpu2
+==54583== NVPROF is profiling process 54583, command: ./matmult_f.nvcc gpu2 3584 3584 3584
+==54583== Profiling application: ./matmult_f.nvcc gpu2 3584 3584 3584
+==54583== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   87.63%  2.55549s        11  232.32ms  232.08ms  232.93ms  matmult_gpu2_kernel
-                    9.43%  275.03ms        34  8.0891ms  1.3760us  8.3396ms  [CUDA memcpy HtoD]
-                    2.94%  85.792ms        11  7.7993ms  7.7982ms  7.8065ms  [CUDA memcpy DtoH]
-301056.000 331049.399 # matmult_gpu2
-==368078== NVPROF is profiling process 368078, command: ./matmult_f.nvcc gpu2 4096 4096 4096
-==368078== Profiling application: ./matmult_f.nvcc gpu2 4096 4096 4096
-==368078== Profiling result:
+ GPU activities:   67.04%  1.79952s        27  66.649ms  66.548ms  66.759ms  matmult_gpu2_kernel
+                   25.12%  674.24ms        82  8.2224ms  1.3760us  8.3305ms  [CUDA memcpy HtoD]
+                    7.85%  210.68ms        27  7.8031ms  7.8027ms  7.8038ms  [CUDA memcpy DtoH]
+301056.000 799555.583 # matmult_gpu2
+==54600== NVPROF is profiling process 54600, command: ./matmult_f.nvcc gpu2 4096 4096 4096
+==54600== Profiling application: ./matmult_f.nvcc gpu2 4096 4096 4096
+==54600== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   88.98%  2.76710s         8  345.89ms  345.40ms  346.21ms  matmult_gpu2_kernel
-                    8.40%  261.22ms        25  10.449ms  1.4080us  10.893ms  [CUDA memcpy HtoD]
-                    2.62%  81.487ms         8  10.186ms  10.185ms  10.194ms  [CUDA memcpy DtoH]
-393216.000 338971.983 # matmult_gpu2
-==368095== NVPROF is profiling process 368095, command: ./matmult_f.nvcc gpu2 4608 4608 4608
-==368095== Profiling application: ./matmult_f.nvcc gpu2 4608 4608 4608
-==368095== Profiling result:
+ GPU activities:   69.82%  1.88189s        19  99.047ms  98.985ms  99.156ms  matmult_gpu2_kernel
+                   22.99%  619.64ms        58  10.683ms  1.7280us  10.872ms  [CUDA memcpy HtoD]
+                    7.18%  193.63ms        19  10.191ms  10.191ms  10.192ms  [CUDA memcpy DtoH]
+393216.000 848358.508 # matmult_gpu2
+==54618== NVPROF is profiling process 54618, command: ./matmult_f.nvcc gpu2 4608 4608 4608
+==54618== Profiling application: ./matmult_f.nvcc gpu2 4608 4608 4608
+==54618== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   90.12%  2.96618s         6  494.36ms  494.05ms  494.70ms  matmult_gpu2_kernel
-                    7.53%  247.97ms        19  13.051ms  1.4080us  13.789ms  [CUDA memcpy HtoD]
-                    2.35%  77.344ms         6  12.891ms  12.890ms  12.891ms  [CUDA memcpy DtoH]
-497664.000 343708.162 # matmult_gpu2
-==368113== NVPROF is profiling process 368113, command: ./matmult_f.nvcc gpu2 5120 5120 5120
-==368113== Profiling application: ./matmult_f.nvcc gpu2 5120 5120 5120
-==368113== Profiling result:
+ GPU activities:   72.75%  2.02482s        14  144.63ms  144.39ms  144.78ms  matmult_gpu2_kernel
+                   20.76%  577.82ms        43  13.438ms  1.4080us  13.766ms  [CUDA memcpy HtoD]
+                    6.49%  180.57ms        14  12.898ms  12.897ms  12.898ms  [CUDA memcpy DtoH]
+497664.000 881380.431 # matmult_gpu2
+==54636== NVPROF is profiling process 54636, command: ./matmult_f.nvcc gpu2 5120 5120 5120
+==54636== Profiling application: ./matmult_f.nvcc gpu2 5120 5120 5120
+==54636== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   91.29%  2.80449s         4  701.12ms  700.52ms  701.53ms  matmult_gpu2_kernel
-                    6.64%  204.05ms        13  15.696ms  1.4400us  17.005ms  [CUDA memcpy HtoD]
-                    2.07%  63.664ms         4  15.916ms  15.914ms  15.922ms  [CUDA memcpy DtoH]
-614400.000 338327.251 # matmult_gpu2
-==368140== NVPROF is profiling process 368140, command: ./matmult_f.nvcc gpu2 5632 5632 5632
-==368140== Profiling application: ./matmult_f.nvcc gpu2 5632 5632 5632
-==368140== Profiling result:
+ GPU activities:   74.97%  2.20293s        11  200.27ms  200.19ms  200.35ms  matmult_gpu2_kernel
+                   19.07%  560.47ms        34  16.484ms  1.4400us  16.985ms  [CUDA memcpy HtoD]
+                    5.96%  175.15ms        11  15.922ms  15.922ms  15.923ms  [CUDA memcpy DtoH]
+614400.000 910804.192 # matmult_gpu2
+==54654== NVPROF is profiling process 54654, command: ./matmult_f.nvcc gpu2 5632 5632 5632
+==54654== Profiling application: ./matmult_f.nvcc gpu2 5632 5632 5632
+==54654== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   91.88%  2.75498s         3  918.33ms  917.39ms  919.26ms  matmult_gpu2_kernel
-                    6.18%  185.44ms        10  18.544ms  1.3760us  20.745ms  [CUDA memcpy HtoD]
-                    1.93%  57.922ms         3  19.307ms  19.255ms  19.412ms  [CUDA memcpy DtoH]
-743424.000 342989.043 # matmult_gpu2
-==368326== NVPROF is profiling process 368326, command: ./matmult_f.nvcc gpu2 6144 6144 6144
-==368326== Profiling application: ./matmult_f.nvcc gpu2 6144 6144 6144
-==368326== Profiling result:
+ GPU activities:   76.60%  2.11940s         8  264.93ms  264.86ms  265.00ms  matmult_gpu2_kernel
+                   17.83%  493.20ms        25  19.728ms  1.4080us  20.552ms  [CUDA memcpy HtoD]
+                    5.57%  154.13ms         8  19.266ms  19.266ms  19.267ms  [CUDA memcpy DtoH]
+743424.000 945480.958 # matmult_gpu2
+==54672== NVPROF is profiling process 54672, command: ./matmult_f.nvcc gpu2 6144 6144 6144
+==54672== Profiling application: ./matmult_f.nvcc gpu2 6144 6144 6144
+==54672== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   92.61%  3.62480s         3  1.20827s  1.20777s  1.20866s  matmult_gpu2_kernel
-                    5.63%  220.36ms        10  22.036ms  1.4080us  24.486ms  [CUDA memcpy HtoD]
-                    1.76%  68.771ms         3  22.924ms  22.915ms  22.931ms  [CUDA memcpy DtoH]
-884736.000 345945.177 # matmult_gpu2
-==368350== NVPROF is profiling process 368350, command: ./matmult_f.nvcc gpu2 6656 6656 6656
-==368350== Profiling application: ./matmult_f.nvcc gpu2 6656 6656 6656
-==368350== Profiling result:
+ GPU activities:   78.23%  2.42261s         7  346.09ms  345.83ms  346.41ms  matmult_gpu2_kernel
+                   16.58%  513.55ms        22  23.343ms  1.3760us  24.456ms  [CUDA memcpy HtoD]
+                    5.18%  160.49ms         7  22.928ms  22.927ms  22.928ms  [CUDA memcpy DtoH]
+884736.000 967357.690 # matmult_gpu2
+==54690== NVPROF is profiling process 54690, command: ./matmult_f.nvcc gpu2 6656 6656 6656
+==54690== Profiling application: ./matmult_f.nvcc gpu2 6656 6656 6656
+==54690== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   93.12%  3.06323s         2  1.53162s  1.53081s  1.53243s  matmult_gpu2_kernel
-                    5.24%  172.48ms         7  24.640ms  1.4080us  28.797ms  [CUDA memcpy HtoD]
-                    1.64%  53.785ms         2  26.893ms  26.893ms  26.893ms  [CUDA memcpy DtoH]
-1038336.000 349541.575 # matmult_gpu2
-==368373== NVPROF is profiling process 368373, command: ./matmult_f.nvcc gpu2 7168 7168 7168
-==368373== Profiling application: ./matmult_f.nvcc gpu2 7168 7168 7168
-==368373== Profiling result:
+ GPU activities:   79.46%  2.62380s         6  437.30ms  437.15ms  437.42ms  matmult_gpu2_kernel
+                   15.65%  516.60ms        19  27.190ms  1.3760us  28.701ms  [CUDA memcpy HtoD]
+                    4.89%  161.45ms         6  26.908ms  26.907ms  26.909ms  [CUDA memcpy DtoH]
+1038336.000 996942.269 # matmult_gpu2
+==54708== NVPROF is profiling process 54708, command: ./matmult_f.nvcc gpu2 7168 7168 7168
+==54708== Profiling application: ./matmult_f.nvcc gpu2 7168 7168 7168
+==54708== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   93.53%  3.79336s         2  1.89668s  1.89628s  1.89708s  matmult_gpu2_kernel
-                    4.93%  199.95ms         7  28.564ms  1.6000us  33.326ms  [CUDA memcpy HtoD]
-                    1.54%  62.376ms         2  31.188ms  31.188ms  31.188ms  [CUDA memcpy DtoH]
-1204224.000 354710.071 # matmult_gpu2
-==368392== NVPROF is profiling process 368392, command: ./matmult_f.nvcc gpu2 7680 7680 7680
-==368392== Profiling application: ./matmult_f.nvcc gpu2 7680 7680 7680
-==368392== Profiling result:
+ GPU activities:   80.65%  2.73211s         5  546.42ms  546.24ms  546.59ms  matmult_gpu2_kernel
+                   14.74%  499.28ms        16  31.205ms  1.4080us  33.289ms  [CUDA memcpy HtoD]
+                    4.61%  156.03ms         5  31.206ms  31.206ms  31.207ms  [CUDA memcpy DtoH]
+1204224.000 1014901.452 # matmult_gpu2
+==54727== NVPROF is profiling process 54727, command: ./matmult_f.nvcc gpu2 7680 7680 7680
+==54727== Profiling application: ./matmult_f.nvcc gpu2 7680 7680 7680
+==54727== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   93.96%  4.68789s         2  2.34395s  2.34361s  2.34428s  matmult_gpu2_kernel
-                    4.60%  229.53ms         7  32.790ms  1.3760us  38.257ms  [CUDA memcpy HtoD]
-                    1.44%  71.605ms         2  35.802ms  35.802ms  35.803ms  [CUDA memcpy DtoH]
-1382400.000 355302.898 # matmult_gpu2
-==368412== NVPROF is profiling process 368412, command: ./matmult_f.nvcc gpu2 8192 8192 8192
-==368412== Profiling application: ./matmult_f.nvcc gpu2 8192 8192 8192
-==368412== Profiling result:
+ GPU activities:   81.89%  2.72211s         4  680.53ms  680.22ms  680.91ms  matmult_gpu2_kernel
+                   13.79%  458.52ms        13  35.271ms  1.5040us  38.218ms  [CUDA memcpy HtoD]
+                    4.31%  143.29ms         4  35.823ms  35.823ms  35.824ms  [CUDA memcpy DtoH]
+1382400.000 1022675.831 # matmult_gpu2
+==54746== NVPROF is profiling process 54746, command: ./matmult_f.nvcc gpu2 8192 8192 8192
+==54746== Profiling application: ./matmult_f.nvcc gpu2 8192 8192 8192
+==54746== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   94.22%  2.79042s         1  2.79042s  2.79042s  2.79042s  matmult_gpu2_kernel
-                    4.41%  130.59ms         4  32.647ms  1.4080us  43.537ms  [CUDA memcpy HtoD]
-                    1.38%  40.735ms         1  40.735ms  40.735ms  40.735ms  [CUDA memcpy DtoH]
-1572864.000 363475.009 # matmult_gpu2
-==368434== NVPROF is profiling process 368434, command: ./matmult_f.nvcc gpu2 8704 8704 8704
-==368434== Profiling application: ./matmult_f.nvcc gpu2 8704 8704 8704
-==368434== Profiling result:
+ GPU activities:   82.55%  2.42987s         3  809.96ms  809.85ms  810.08ms  matmult_gpu2_kernel
+                   13.29%  391.26ms        10  39.126ms  1.3760us  43.474ms  [CUDA memcpy HtoD]
+                    4.15%  122.28ms         3  40.760ms  40.758ms  40.763ms  [CUDA memcpy DtoH]
+1572864.000 1054301.036 # matmult_gpu2
+==54765== NVPROF is profiling process 54765, command: ./matmult_f.nvcc gpu2 8704 8704 8704
+==54765== Profiling application: ./matmult_f.nvcc gpu2 8704 8704 8704
+==54765== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   94.63%  3.41063s         1  3.41063s  3.41063s  3.41063s  matmult_gpu2_kernel
-                    4.09%  147.42ms         4  36.855ms  1.3750us  49.147ms  [CUDA memcpy HtoD]
-                    1.28%  45.986ms         1  45.986ms  45.986ms  45.986ms  [CUDA memcpy DtoH]
-1775616.000 358855.868 # matmult_gpu2
-==368454== NVPROF is profiling process 368454, command: ./matmult_f.nvcc gpu2 9216 9216 9216
-==368454== Profiling application: ./matmult_f.nvcc gpu2 9216 9216 9216
-==368454== Profiling result:
+ GPU activities:   83.65%  2.96691s         3  988.97ms  988.87ms  989.08ms  matmult_gpu2_kernel
+                   12.45%  441.69ms        10  44.169ms  1.3760us  49.079ms  [CUDA memcpy HtoD]
+                    3.89%  138.04ms         3  46.012ms  46.012ms  46.012ms  [CUDA memcpy DtoH]
+1775616.000 1053231.380 # matmult_gpu2
+==54783== NVPROF is profiling process 54783, command: ./matmult_f.nvcc gpu2 9216 9216 9216
+==54783== Profiling application: ./matmult_f.nvcc gpu2 9216 9216 9216
+==54783== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   94.91%  4.03908s         1  4.03908s  4.03908s  4.03908s  matmult_gpu2_kernel
-                    3.88%  165.26ms         4  41.314ms  1.4080us  55.086ms  [CUDA memcpy HtoD]
-                    1.21%  51.562ms         1  51.562ms  51.562ms  51.562ms  [CUDA memcpy DtoH]
-1990656.000 361147.986 # matmult_gpu2
-==368478== NVPROF is profiling process 368478, command: ./matmult_f.nvcc gpu2 9728 9728 9728
-==368478== Profiling application: ./matmult_f.nvcc gpu2 9728 9728 9728
-==368478== Profiling result:
+ GPU activities:   84.37%  3.50721s         3  1.16907s  1.16893s  1.16930s  matmult_gpu2_kernel
+                   11.91%  495.18ms        10  49.518ms  1.4080us  55.021ms  [CUDA memcpy HtoD]
+                    3.72%  154.75ms         3  51.585ms  51.584ms  51.586ms  [CUDA memcpy DtoH]
+1990656.000 1069922.692 # matmult_gpu2
+==54803== NVPROF is profiling process 54803, command: ./matmult_f.nvcc gpu2 9728 9728 9728
+==54803== Profiling application: ./matmult_f.nvcc gpu2 9728 9728 9728
+==54803== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   95.20%  4.79366s         1  4.79366s  4.79366s  4.79366s  matmult_gpu2_kernel
-                    3.66%  184.14ms         4  46.034ms  1.3760us  61.379ms  [CUDA memcpy HtoD]
-                    1.14%  57.441ms         1  57.441ms  57.441ms  57.441ms  [CUDA memcpy DtoH]
-2217984.000 359413.133 # matmult_gpu2
-==368498== NVPROF is profiling process 368498, command: ./matmult_f.nvcc gpu2 10240 10240 10240
-==368498== Profiling application: ./matmult_f.nvcc gpu2 10240 10240 10240
-==368498== Profiling result:
+ GPU activities:   85.03%  2.74264s         2  1.37132s  1.37113s  1.37151s  matmult_gpu2_kernel
+                   11.41%  367.91ms         7  52.558ms  1.4080us  61.396ms  [CUDA memcpy HtoD]
+                    3.56%  114.95ms         2  57.475ms  57.474ms  57.475ms  [CUDA memcpy DtoH]
+2217984.000 1082613.845 # matmult_gpu2
+==54822== NVPROF is profiling process 54822, command: ./matmult_f.nvcc gpu2 10240 10240 10240
+==54822== Profiling application: ./matmult_f.nvcc gpu2 10240 10240 10240
+==54822== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   95.53%  5.72700s         1  5.72700s  5.72700s  5.72700s  matmult_gpu2_kernel
-                    3.40%  204.03ms         4  51.006ms  1.4080us  68.010ms  [CUDA memcpy HtoD]
-                    1.06%  63.680ms         1  63.680ms  63.680ms  63.680ms  [CUDA memcpy DtoH]
-2457600.000 352553.585 # matmult_gpu2
+ GPU activities:   85.77%  3.22412s         2  1.61206s  1.61148s  1.61264s  matmult_gpu2_kernel
+                   10.84%  407.57ms         7  58.225ms  1.4080us  67.941ms  [CUDA memcpy HtoD]
+                    3.39%  127.37ms         2  63.685ms  63.683ms  63.686ms  [CUDA memcpy DtoH]
+2457600.000 1085983.229 # matmult_gpu2

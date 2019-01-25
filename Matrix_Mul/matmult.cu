@@ -17,19 +17,7 @@ extern "C" {
 
 extern "C" {
     void matmult_lib(int m, int n, int k, double *A, double *B, double *C) {
-        /*
-        int iterations;
-        if (m <= 2560)
-            iterations = 500;
-        else if (m <= 5120)
-            iterations = 10;
-        else
-            iterations = 2;
-        double start_time = omp_get_wtime();
-        for (int i = 0; i < iterations; i++)
-         */
-            cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, A, k, B, n, 0, C, n);
-        //printf("%f\n", (omp_get_wtime() - start_time) / iterations);
+        cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, A, k, B, n, 0, C, n);
     }
 }
 
@@ -99,10 +87,11 @@ __global__ void matmult_gpu2_kernel(int m, int n, int k, double *A, double *B, d
     if (col >= n || row >= m)
         return;
     int l;
-
+    double C_reg = 0.0;
     for (l = 0; l < k; ++l) {
-        C[row * n + col] += A[row * k + l] * B[l * n + col];
+        C_reg += A[row * k + l] * B[l * n + col];
     }
+    C[row * n + col] = C_reg;
 
 }
 
@@ -137,15 +126,21 @@ __global__ void matmult_gpu3_kernel(int m, int n, int k, double *A, double *B, d
     if (col >= n || row >= m)
         return;
     int l;
+    double C_reg[2] = {0.0, 0.0};
+
     if (row >= m - 1) {
         for (l = 0; l < k; ++l) {
-            C[row * n + col] += A[row * k + l] * B[l * n + col];
+            C_reg[0] += A[row * k + l] * B[l * n + col];
         }
+        C[row * n + col] = C_reg[0];
+
     } else {
         for (l = 0; l < k; ++l) {
-            C[row * n + col] += A[row * k + l] * B[l * n + col];
-            C[(row+1) * n + col] += A[(row+1) * k + l] * B[l * n + col];
+            C_reg[0] += A[row * k + l] * B[l * n + col];
+            C_reg[1] += A[(row+1) * k + l] * B[l * n + col];
         }
+        C[row * n + col] = C_reg[0];
+        C[(row+1) * n + col] = C_reg[1];
     }
 
 }

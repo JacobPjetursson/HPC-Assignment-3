@@ -10,10 +10,10 @@ export MATMULT_COMPARE=0
 
 mkdir -p gpu_sim
 
-rm -rf gpu_sim/gpu4*
+rm -rf gpu_sim/gpu2*
 
 for i in {2..20}
 do
-	nvprof --print-gpu-summary ./matmult_f.nvcc gpu4 $((512*$i)) $((512*$i)) $((512*$i)) >> gpu_sim/gpu4.txt 2>&1
+	nvprof --print-gpu-summary ./matmult_f.nvcc gpu2 $((512*$i)) $((512*$i)) $((512*$i)) >> gpu_sim/gpu2.txt 2>&1
 done
 
