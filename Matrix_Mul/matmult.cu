@@ -107,8 +107,8 @@ void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C) {
     cudaMemcpy(d_C, C, m * n * sizeof(double), cudaMemcpyHostToDevice);
 
     int blockSize = 16; // NUM_THREADS_IN_BLOCK
-    int gridN = (int)ceil((double)n / blockSize * 0.5);
-    int gridM = (int)ceil((double)m / blockSize);
+    int gridN = (int)ceil((double)n / blockSize);
+    int gridM = (int)ceil((double)m / blockSize * 0.5);
     dim3 dimGrid(gridN,gridM,1);
     dim3 dimBlock(blockSize, blockSize, 1);
 
@@ -121,14 +121,14 @@ void matmult_gpu3(int m, int n, int k, double *A, double *B, double *C) {
 }
 
 __global__ void matmult_gpu3_kernel(int m, int n, int k, double *A, double *B, double *C) {
-    int col = (blockIdx.x * blockDim.x + threadIdx.x) * 2;
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = (blockIdx.y * blockDim.y + threadIdx.y) * 2;
     if (col >= n || row >= m)
         return;
     int l;
     double C_reg[2] = {0.0, 0.0};
 
-    if (col >= n - 1) {
+    if (row >= m - 1) {
         for (l = 0; l < k; ++l) {
             C_reg[0] += A[row * k + l] * B[l * n + col];
         }
@@ -137,10 +137,10 @@ __global__ void matmult_gpu3_kernel(int m, int n, int k, double *A, double *B, d
     } else {
         for (l = 0; l < k; ++l) {
             C_reg[0] += A[row * k + l] * B[l * n + col];
-            C_reg[1] += A[row * k + l] * B[l * n + col + 1];
+            C_reg[1] += A[(row+1) * k + l] * B[l * n + col];
         }
         C[row * n + col] = C_reg[0];
-        C[row * n + col + 1] = C_reg[1];
+        C[(row+1) * n + col] = C_reg[1];
     }
 
 }
