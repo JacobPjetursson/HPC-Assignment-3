@@ -87,27 +87,22 @@ int main(int argc, char *argv[]) {
     double *f;
     double *u;
     f = generateF(N, gridspacing);
+    u = generateU(N);
 
     gettimeofday(&timecheck, NULL);
     ts = (long) timecheck.tv_sec * 1000 + (long) timecheck.tv_usec / 1000;
-    int loop = (N <= 200) ? 10 : 1;
-    for (int i = 0; i < loop; i++) {
-        u = generateU(N);
-        if (strcmp(funcType, "jacobi") == 0) {
-            memory = ((N + 2) * (N + 2) * 2 + (N * N)) * sizeof(double);
-            iterations = jacobi(N, kmax, &u, &f);
-        } else {
-            printf("First parameter should be either jacobi or gauss");
-            exit(1);
-        }
+    if (strcmp(funcType, "jacobi") == 0) {
+        memory = ((N + 2) * (N + 2) * 2 + (N * N)) * sizeof(double);
+        iterations = jacobi(N, kmax, &u, &f);
+    } else {
+        printf("First parameter should be either jacobi or gauss");
+        exit(1);
     }
-
 
     // Get elapsed time
     gettimeofday(&timecheck, NULL);
     te = (long) timecheck.tv_sec * 1000 + (long) timecheck.tv_usec / 1000;
     double elapsed = (double) (te - ts) / 1000;
-    elapsed /= (double) loop;
 
     mflops = 1.0e-06 * iterations * (N * N * FLOP);
     mflops /= elapsed;

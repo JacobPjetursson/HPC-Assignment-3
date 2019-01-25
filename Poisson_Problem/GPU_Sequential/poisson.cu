@@ -12,13 +12,8 @@
 
 int jacobi(int N, int kmax, double **u, double **f) {
     double *uold;
-
-    int elem_f = N * N;
-    int size_N = elem_f * sizeof(double);
-
-    int elem_u = (N + 2) * (N + 2);
-    int size_N2 = elem_u*sizeof(double);
-
+    int size_N = N *  N * sizeof(double);
+    int size_N2 = (N+2)*(N+2)*sizeof(double);
 
     int k = 0;
 
@@ -26,70 +21,29 @@ int jacobi(int N, int kmax, double **u, double **f) {
     for (int i = 0; i <(N+2)*(N+2) ; ++i) {
         uold[i]=(*u)[i];
     }
-    double *f_d1;
-    double *f_d2;
+    double *u_d;
+    double *uold_d;
+    double *f_d;
 
-    double *u_d1;
-    double *uold_d1;
-
-    double *u_d2;
-    double *uold_d2;
-
-    cudaSetDevice(0);
-    cudaDeviceEnablePeerAccess(1, 0); 
-    cudaMalloc((void**) &f_d1,size_N);
-    cudaMalloc((void**) &uold_d1, size_N2 / 2);
-    cudaMalloc((void**) &u_d1, size_N2 / 2);
-
-    cudaMemcpy(f_d1, (*f), size_N, cudaMemcpyHostToDevice);
-    cudaMemcpy(u_d1, (*u), size_N2 / 2, cudaMemcpyHostToDevice);
-    cudaMemcpy(uold_d1, uold, size_N2 / 2, cudaMemcpyHostToDevice);
-
-    cudaSetDevice(1);
-    cudaDeviceEnablePeerAccess(0, 0); 
-    cudaMalloc((void**) &f_d2, size_N);
-    cudaMalloc((void**) &uold_d2, size_N2 / 2);
-    cudaMalloc((void**) &u_d2, size_N2 / 2);
-
-    cudaMemcpy(f_d2, (*f), size_N, cudaMemcpyHostToDevice);
-    cudaMemcpy(u_d2, (*u) + elem_u / 2, size_N2 / 2, cudaMemcpyHostToDevice);
-    cudaMemcpy(uold_d2, uold + elem_u / 2, size_N2 / 2, cudaMemcpyHostToDevice);
-
-    int g = N / 32;
-    int g2 = N / 64;
-
-    dim3 dimGrid(g, g2, 1);
-    dim3 dimBlock(32, 32, 1);
+    cudaMalloc((void**) &f_d,size_N);
+    cudaMalloc((void**) &uold_d, size_N2);
+    cudaMalloc((void**) &u_d, size_N2);
+    cudaMemcpy(f_d, (*f), size_N, cudaMemcpyHostToDevice);
+    cudaMemcpy(u_d, (*u), size_N2,cudaMemcpyHostToDevice);
+    cudaMemcpy(uold_d, uold, size_N2,cudaMemcpyHostToDevice);
 
     while (k < kmax) {
-        swap(&u_d1, &uold_d1);
-        swap(&u_d2, &uold_d2);
+        swap(&u_d, &uold_d);
         k += 1;
-        //jacobiIteration<<< 1, 1>>>(u_d, uold_d, f_d, N);
-        cudaSetDevice(0);
-        jacobiIteration_per_elem_2<<< dimGrid, dimBlock>>>(u_d1, uold_d1, uold_d2, f_d1, N, 0);
-        cudaSetDevice(1);
-        jacobiIteration_per_elem_2<<< dimGrid, dimBlock>>>(u_d2, uold_d2, uold_d1, f_d2, N, 1);
-
-        //cudaSetDevice(0);
-        //cudaDeviceSynchronize();
-        cudaSetDevice(1);
-        cudaStreamSynchronize(0);
+        jacobiIteration<<<1,1>>>(u_d, uold_d, f_d, N);
+        cudaDeviceSynchronize();
     }
 
-    cudaSetDevice(0);
-    cudaMemcpy((*u), u_d1, size_N2 / 2, cudaMemcpyDeviceToHost);
-    cudaFree(uold_d1);
-    cudaFree(u_d1);
-    cudaFree(f_d1);
+    cudaMemcpy((*u), u_d, size_N2, cudaMemcpyDeviceToHost);
 
-    cudaSetDevice(1);
-    cudaMemcpy((*u) + elem_u / 2, u_d2, size_N2 / 2, cudaMemcpyDeviceToHost);
-    cudaFree(uold_d2);
-    cudaFree(u_d2);
-    cudaFree(f_d2);
-    
-
+    cudaFree(uold_d);
+    cudaFree(u_d);
+    cudaFree(f_d);
     cudaFreeHost(uold);
     return k;
 }
@@ -139,12 +93,11 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-
     // Get elapsed time
     gettimeofday(&timecheck, NULL);
     te = (long) timecheck.tv_sec * 1000 + (long) timecheck.tv_usec / 1000;
     double elapsed = (double) (te - ts) / 1000;
-
+    
     mflops = 1.0e-06 * iterations * (N * N * FLOP);
     mflops /= elapsed;
     memory /= 1024.0; // KB
@@ -154,6 +107,6 @@ int main(int argc, char *argv[]) {
     printf("%f\t", memory); // Mem footprint
     printf("%d\t", iterations); // iterations
     printf("%d\n", N); // N
-    print_matrix(u, N + 2);
+    //print_matrix(u, N + 2);
     return 0;
 }
