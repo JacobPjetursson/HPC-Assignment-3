@@ -13,12 +13,23 @@ extern "C" {
 #define bsy 16
 // Thread block size for shared memory
 #define BLOCK_SIZE 16
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 extern "C" {
     void matmult_lib(int m, int n, int k, double *A, double *B, double *C) {
-        cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, A, k, B, n, 0, C, n);
-        for (int x = 0; x < m * n; x++)
-            printf("%f\n", C[x]);
+        /*
+        int iterations;
+        if (m <= 2560)
+            iterations = 500;
+        else if (m <= 5120)
+            iterations = 10;
+        else
+            iterations = 2;
+        double start_time = omp_get_wtime();
+        for (int i = 0; i < iterations; i++)
+         */
+            cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, A, k, B, n, 0, C, n);
+        //printf("%f\n", (omp_get_wtime() - start_time) / iterations);
     }
 }
 
@@ -137,23 +148,6 @@ __global__ void matmult_gpu3_kernel(int m, int n, int k, double *A, double *B, d
         }
     }
 
-    /*
-    int col = (blockIdx.x * blockDim.x + threadIdx.x) * 2;
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    if (col >= n || row >= m)
-        return;
-    int l;
-    if (col >= n - 1) {
-        for (l = 0; l < k; ++l) {
-            C[row * n + col] += A[row * k + l] * B[l * n + col];
-        }
-    } else {
-        for (l = 0; l < k; ++l) {
-            C[row * n + col] += A[row * k + l] * B[l * n + col];
-            C[row * n + col + 1] += A[row * k + l] * B[l * n + col + 1];
-        }
-    }
-     */
 }
 
 void matmult_gpu4(int m, int n, int k, double *A, double *B, double *C) {
@@ -194,41 +188,17 @@ __global__ void matmult_gpu4_kernel(int m, int n, int k, double *A, double *B, d
     for (i = 0; i < bsx * bsy; i++)
         C_reg[i] = 0.0;
 
-    if (row >= (m - bsy + 1) && col >= (n - bsx + 1)) {
-        for (j = 0; j < (n - col); j++) {
-            for (i = 0; i < (m - row); i++) {
-                for (l = 0; l < k; ++l) {
-                    C_reg[i * (n - col) + j] += A[(row+i) * k + l] * B[l * n + (col+j)];
-                }
-                C[(row+i) * n + (col+j)] = C_reg[i * (n - col) + j];
-            }
-        }
-    } else if (row >= m - bsy + 1) {
-        for (i = 0; i < (m - row); i++) {
+    int loopJ = MIN(bsx, (n-col));
+    int loopI = MIN(bsy, (m-row));
+    for (j = 0; j < loopJ; j++) {
+        for (i = 0; i < loopI; i++) {
             for (l = 0; l < k; ++l) {
-                C_reg[i] += A[(row+i) * k + l] * B[l * n + col];
+                C_reg[i * bsx + j] += A[(row+i) * k + l] * B[l * n + col + j];
             }
-            C[(row+i) * n + col] = C_reg[i];
+            C[(row+i) * n + col+j] = C_reg[i * bsx + j];
         }
+    }
 
-    } else if (col >= n - bsx + 1) {
-        for (j = 0; j < (n - col); j++) {
-            for (l = 0; l < k; ++l) {
-                C_reg[j] += A[row * k + l] * B[l * n + col + j];
-            }
-            C[row * n + col + j] = C_reg[j];
-        }
-    }
-    else {
-        for (j = 0; j < bsx; j++) {
-            for (i = 0; i < bsy; i++) {
-                for (l = 0; l < k; ++l) {
-                    C_reg[i * bsx + j] += A[(row+i) * k + l] * B[l * n + col + j];
-                }
-                C[(row+i) * n + col+j] = C_reg[i * bsx + j];
-            }
-        }
-    }
 }
 
 void matmult_gpu5(int m, int n, int k, double *A, double *B, double *C)
@@ -289,10 +259,25 @@ __global__ void matmult_gpu5_kernel(int m, int n, int k, double *A, double *B, d
 
 void matmult_gpulib(int m, int n, int k, double *A, double *B, double *C)
 {
+    double *d_A, *d_B, *d_C;
+    for(int i = 0; i < m * n; i++)
+        C[i] = 0;
+    cudaMalloc( (void **)&d_A, m * k * sizeof(double));
+    cudaMalloc( (void **)&d_B, n * k * sizeof(double));
+    cudaMalloc( (void **)&d_C, m * n * sizeof(double));
+    cudaMemcpy(d_A, A, m * k * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, B, n * k * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_C, C, m * n * sizeof(double), cudaMemcpyHostToDevice);
+
     cublasHandle_t handle;
     cublasCreate(&handle);
     double alpha = 1.0;
     double beta = 0.0;
-    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, &alpha, B, n, A, k, &beta, C, n);
+    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, &alpha, d_B, n, d_A, k, &beta, d_C, n);
+
+    cudaMemcpy(C, d_C, m * n * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaFree(d_A);
+    cudaFree(d_B);
+    cudaFree(d_C);
     cublasDestroy(handle);
 }
