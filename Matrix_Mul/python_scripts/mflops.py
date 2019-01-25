@@ -6,16 +6,16 @@ time_percents = []
 programs = ["gpu2", "gpu3", "gpu4", "gpu5"]
 markers = ['x', 'o', 's', '+']
 
-plt.figure(figsize=(13, 8))
-plt.xlabel("Memory footprint in KB")
-plt.ylabel("Gflop/s")
-plt.title("Performance for various GPU versions")
+plt.figure(figsize=(15, 5))
+plt.xlabel("Memory footprint in KB" , fontsize=16)
+plt.ylabel("Gflop/s", fontsize=16)
+plt.title("Performance for various GPU versions in GFlops",fontsize=20)
 
 for i in range(len(programs)):
     program = programs[i]
     marker = markers[i]
 
-    with open("%s.txt" % program, "r") as f:
+    with open("../gpu_sim/%s.txt" % program, "r") as f:
         for line in f.readlines():
             line_tokens = line.split()
 
@@ -26,14 +26,14 @@ for i in range(len(programs)):
                 time_percents.append(float(line_tokens[2][:-1]))
     for j in range(len(mflops)):
         mflops[j] = mflops[j] / (time_percents[j] / 100)
-    plt.plot(mem_fps[:19], mflops, marker=marker, label="GPU v%s" % program[-1])
+    plt.plot(mem_fps[:19], mflops, marker=marker, label="GPU v%s" % program[-1], linewidth=2.5)
     mflops.clear()
     time_percents.clear()
 
 mflops.clear()
 time_percents.clear()
 
-with open("../cpu.txt", "r") as f:
+with open("../cpu_sim/cpu.txt", "r") as f:
     for line in f.readlines():
         tokens = line.split()
         iterations = 1
@@ -47,11 +47,11 @@ with open("../cpu.txt", "r") as f:
             mflops.append(float(tokens[1]) * iterations / 1000.0)
 
 
-plt.plot(mem_fps[:19], mflops, marker='d', label="CPU 12 threads")
+plt.plot(mem_fps[:19], mflops, marker='d', label="CPU 12 threads", linewidth=2.5)
 
 mflops.clear()
 time_percents.clear()
-with open("gpu_lib.txt", "r") as f:
+with open("../gpu_sim/gpu_lib.txt", "r") as f:
     for line in f.readlines():
         line_tokens = line.split()
         if len(line_tokens) == 4:
@@ -62,10 +62,11 @@ with open("gpu_lib.txt", "r") as f:
 
 for j in range(len(mflops)):
     mflops[j] = mflops[j] / (time_percents[j] / 100)
-plt.plot(mem_fps[:19], mflops, marker='*', label="CUBLAS")
+plt.plot(mem_fps[:19], mflops, marker='*', label="CUBLAS", linewidth=2.5)
 
-plt.axhline(y=7065, color="black", label="GPU Limit")
-plt.axhline(y=998, color="gray", label="CPU Limit")
-plt.legend(fontsize="x-large")
+plt.axhline(y=7065, color="black", label="GPU Limit", linewidth=1.5)
+plt.axhline(y=998, color="gray", label="CPU Limit", linewidth=1.5)
+plt.legend()
+plt.tight_layout()
 plt.savefig("gpu2+_vs_cpu_mflops.png")
 plt.show()

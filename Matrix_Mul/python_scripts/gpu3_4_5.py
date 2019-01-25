@@ -5,15 +5,15 @@ times = []
 programs = ["gpu2", "gpu3", "gpu4", "gpu5"]
 markers = ['x', 'o', 's', '+']
 
-plt.figure(figsize=(13, 8))
-plt.xlabel("Memory footprint in KB")
-plt.ylabel("Time spent in ms")
-plt.title("Performance for various GPU versions")
+plt.figure(figsize=(15, 5))
+plt.xlabel("Memory footprint in KB", fontsize=16)
+plt.ylabel("Time spent in ms", fontsize=16)
+plt.title("Executiontime for various GPU versions", fontsize=20)
 
 for i in range(len(programs)):
     program = programs[i]
     marker = markers[i]
-    with open("%s.txt" % program, "r") as f:
+    with open("../gpu_sim/%s.txt" % program, "r") as f:
         for line in f.readlines():
             line_tokens = line.split()
             if len(line_tokens) == 4:
@@ -29,21 +29,21 @@ for i in range(len(programs)):
                     avg *= 1000
                 times.append(avg)
 
-    plt.semilogy(mem_fps[:19], times, marker=marker, label="GPU v%s" % program[-1])
+    plt.semilogy(mem_fps[:19], times, marker=marker, label="GPU v%s" % program[-1], linewidth=2.5)
     times.clear()
 
 times.clear()
 
-with open("../cpu.txt", "r") as f:
+with open("../cpu_sim/cpu.txt", "r") as f:
     for line in f.readlines():
         tokens = line.split()
         if len(tokens) == 1:
             times.append(float(tokens[0]) * 1000)
 
-plt.semilogy(mem_fps[:19], times, marker='d', label="CPU 12 threads")
+plt.semilogy(mem_fps[:19], times, marker='d', label="CPU 12 threads", linewidth=2.5)
 
 times.clear()
-with open("gpu_lib.txt", "r") as f:
+with open("../gpu_sim/gpu_lib.txt", "r") as f:
     for line in f.readlines():
         line_tokens = line.split()
         if len(line_tokens) == 4:
@@ -59,8 +59,9 @@ with open("gpu_lib.txt", "r") as f:
                 avg *= 1000
             times.append(avg)
 
-plt.semilogy(mem_fps[:19], times, marker='*', label="CUBLAS")
+plt.semilogy(mem_fps[:19], times, marker='*', label="CUBLAS", linewidth=2.5)
 
-plt.legend(fontsize="x-large")
+plt.legend()
+plt.tight_layout()
 plt.savefig("gpu2+_vs_cpu.png")
 plt.show()
